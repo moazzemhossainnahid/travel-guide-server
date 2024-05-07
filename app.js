@@ -25,6 +25,8 @@ const usersRoute = require('./v1/Routes/users.route');
 const countriesRoute = require('./v1/Routes/country.route');
 const toursRoute = require('./v1/Routes/tours.route');
 const tourBookingRoute = require('./v1/Routes/tourBooking.route');
+const sslsRoute = require('./v1/Routes/ssl.route');
+const ordersRoute = require('./v1/Routes/orders.route');
 
 
 
@@ -36,6 +38,9 @@ app.use('/api/v1/users', usersRoute);
 app.use('/api/v1/countries', countriesRoute);
 app.use('/api/v1/tours', toursRoute);
 app.use('/api/v1/tour-booking', tourBookingRoute);
+app.use('/api/v1/ssl', sslsRoute);
+app.use('/api/v1/orders', ordersRoute);
+
 
 
 
