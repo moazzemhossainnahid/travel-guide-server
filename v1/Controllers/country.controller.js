@@ -70,6 +70,59 @@ exports.updateLocation = async (req, res) => {
 };
 
 
+// Update a hotel by its ID
+exports.updateHotel = async (req, res) => {
+    try {
+        const { hotelId } = req.params;
+        const updatedHotelData = req.body;
+
+        // Find and update the hotel in the database
+        const updatedCountry = await Countries.findOneAndUpdate(
+            { "locations.hotels._id": hotelId }, // Filter: Find country where hotel ID exists
+            { $set: { "locations.$[outer].hotels.$[inner]": updatedHotelData } }, // Update with new hotel data
+            { 
+                new: true, 
+                arrayFilters: [{ "outer.hotels._id": hotelId }, { "inner._id": hotelId }] 
+            } // Return the updated document
+        );
+
+        // Check if hotel was found and updated
+        if (!updatedCountry) {
+            return res.status(404).json({ status: "Error", message: "Hotel not found" });
+        }
+
+        res.status(200).json({ status: "Success", message: "Hotel data updated successfully", data: updatedCountry });
+    } catch (error) {
+        console.error("Error updating hotel:", error);
+        res.status(500).json({ status: "Error", message: "Internal server error" });
+    }
+};
+
+// Delete a hotel by its ID
+exports.deleteHotel = async (req, res) => {
+    try {
+        const { hotelId } = req.params;
+
+        // Find and update the country in the database
+        const updatedCountry = await Countries.findOneAndUpdate(
+            { "locations.hotels._id": hotelId }, // Filter: Find country where hotel ID exists
+            { $pull: { "locations.$[].hotels": { _id: hotelId } } }, // Remove hotel with given ID
+            { new: true } // Return the updated document
+        );
+
+        // Check if hotel was found and deleted
+        if (!updatedCountry) {
+            return res.status(404).json({ status: "Error", message: "Hotel not found" });
+        }
+
+        res.status(200).json({ status: "Success", message: "Hotel deleted successfully", data: updatedCountry });
+    } catch (error) {
+        console.error("Error deleting hotel:", error);
+        res.status(500).json({ status: "Error", message: "Internal server error" });
+    }
+};
+
+
 
 // get single Country
 exports.getSingleCountry = async (req, res) => {

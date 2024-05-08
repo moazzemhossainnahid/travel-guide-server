@@ -12,6 +12,12 @@ router.patch("/:id",  countriesController.updateACountry);
 // update a location
 router.patch("/:countryId/locations/:locationId",  countriesController.updateLocation);
 
+// update a Hotel
+router.patch("/hotels/:hotelId",  countriesController.updateHotel);
+
+// delete a Hotel
+router.patch("/hotels/delete/:hotelId",  countriesController.deleteHotel);
+
 // get all country
 router.get("/", countriesController.getAllCountries);
 
