@@ -17,7 +17,7 @@ const tourBookingSchema = mongoose.Schema(
         phone: {
             type: String,
             trim: true,
-            required: [true, "address is required"],
+            required: [true, "phone is required"],
         },
         address: {
             type: String,
