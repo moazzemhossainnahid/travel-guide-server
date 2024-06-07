@@ -76,7 +76,7 @@ router.post("/init", async (req, res) => {
       console.log(data?.GatewayPageURL);
 
       if (data?.GatewayPageURL) {
-        // console.log('Redirecting to: ', data?.GatewayPageURL);
+        console.log('Redirecting to: ', data?.GatewayPageURL);
 
         return res.status(200).send(data?.GatewayPageURL);
 
